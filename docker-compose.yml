@@ -1,0 +1,21 @@
+version: "3.9"
+
+services:
+  client:
+    image: node:20
+    working_dir: /app/client
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./:/app
+
+  server:
+    image: node:20
+    working_dir: /app/server
+    command: sh -c "npm install && npm run dev"
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./:/app
+
