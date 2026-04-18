@@ -18,3 +18,24 @@ export const loginSchema = Joi.object({
   password: Joi.string().required(),
 });
 
+export const renameFileSchema = Joi.object({
+  name: Joi.string().trim().max(255).required(),
+});
+
+export const moveFileSchema = Joi.object({
+  newParentFolderId: Joi.string().allow(null, ""),
+});
+
+export const createFolderSchema = Joi.object({
+  name: Joi.string().trim().max(255).required(),
+  parentFolderId: Joi.string().allow(null, ""),
+  color: Joi.string().allow(null, ""),
+});
+
+export const renameFolderSchema = Joi.object({
+  name: Joi.string().trim().max(255).required(),
+});
+
+export const moveFolderSchema = Joi.object({
+  newParentFolderId: Joi.string().allow(null, ""),
+});

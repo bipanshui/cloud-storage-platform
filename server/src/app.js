@@ -4,6 +4,9 @@ import express from "express";
 import helmet from "helmet";
 import morgan from "morgan";
 import authRoutes from "./routes/auth.routes.js";
+import fileRoutes from "./routes/file.routes.js";
+import folderRoutes from "./routes/folder.routes.js";
+import userRoutes from "./routes/user.routes.js";
 import { corsOptions } from "./config/cors.js";
 import { errorHandler } from "./middleware/errorHandler.middleware.js";
 import { generalRateLimiter } from "./middleware/rateLimiter.middleware.js";
@@ -14,7 +17,7 @@ app.use(helmet());
 app.use(cors(corsOptions));
 app.use(morgan("dev"));
 app.use(cookieParser());
-app.use(express.json({ limit: "10mb" }));
+app.use(express.json({ limit: "25mb" }));
 app.use(generalRateLimiter);
 
 app.get("/api/health", (_req, res) => {
@@ -27,6 +30,9 @@ app.get("/api/health", (_req, res) => {
 });
 
 app.use("/api/auth", authRoutes);
+app.use("/api/files", fileRoutes);
+app.use("/api/folders", folderRoutes);
+app.use("/api/users", userRoutes);
 
 app.use((_req, res) => {
   res.status(404).json({
@@ -38,4 +44,3 @@ app.use((_req, res) => {
 app.use(errorHandler);
 
 export default app;
-

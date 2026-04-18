@@ -85,8 +85,6 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-userSchema.index({ email: 1 }, { unique: true });
-
 userSchema.virtual("fullName").get(function fullName() {
   return `${this.firstName} ${this.lastName}`.trim();
 });
@@ -99,18 +97,12 @@ userSchema.virtual("storageUsedPercentage").get(function storageUsedPercentage()
   return Math.min(100, Math.round((this.storageUsed / this.storageLimit) * 100));
 });
 
-userSchema.pre("save", async function hashPassword(next) {
-  try {
-    if (!this.isModified("password")) {
-      next();
-      return;
-    }
-
-    this.password = await bcrypt.hash(this.password, 12);
-    next();
-  } catch (error) {
-    next(error);
+userSchema.pre("save", async function hashPassword() {
+  if (!this.isModified("password")) {
+    return;
   }
+
+  this.password = await bcrypt.hash(this.password, 12);
 });
 
 /**

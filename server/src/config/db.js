@@ -22,6 +22,8 @@ export async function connectDb() {
     return await mongoose.connect(env.mongodbUri, {
       autoIndex: true,
       serverSelectionTimeoutMS: 5000,
+      socketTimeoutMS: 45000,
+      maxPoolSize: 10,
     });
   } catch (error) {
     console.error("Unable to connect to MongoDB:", error.message);
