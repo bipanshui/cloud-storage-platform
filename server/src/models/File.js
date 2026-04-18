@@ -143,9 +143,8 @@ fileSchema.index({ userId: 1, isStarred: 1 });
 fileSchema.index({ name: "text" });
 fileSchema.index({ "shareLink.token": 1 }, { sparse: true });
 
-fileSchema.pre("save", function updateTimestamp(next) {
+fileSchema.pre("save", function updateTimestamp() {
   this.updatedAt = new Date();
-  next();
 });
 
 fileSchema.virtual("formattedSize").get(function formattedSize() {

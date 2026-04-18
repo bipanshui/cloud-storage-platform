@@ -133,12 +133,11 @@ folderSchema.index(
   { unique: true }
 );
 
-folderSchema.pre("save", function updateTimestamp(next) {
+folderSchema.pre("save", function updateTimestamp() {
   this.updatedAt = new Date();
-  next();
 });
 
-folderSchema.pre("save", function validateFolderName(next) {
+folderSchema.pre("save", function validateFolderName() {
   const invalidChars = /[\\/:*?"<>|]/;
   if (this.name && invalidChars.test(this.name)) {
     throw new Error(
@@ -148,7 +147,6 @@ folderSchema.pre("save", function validateFolderName(next) {
   if (this.name && this.name.trim().length === 0) {
     throw new Error("Folder name cannot be empty");
   }
-  next();
 });
 
 folderSchema.methods.getFullPath = async function () {

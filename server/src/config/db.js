@@ -49,7 +49,6 @@ export async function connectDb() {
     throw error;
   }
 }
-}
 
 /**
  * Closes the MongoDB connection.
